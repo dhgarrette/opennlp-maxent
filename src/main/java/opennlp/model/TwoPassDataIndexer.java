@@ -86,6 +86,11 @@ public class TwoPassDataIndexer extends AbstractDataIndexer{
       FileEventStream fes = new FileEventStream(tmp);
       try {
         eventsToCompare = index(numEvents, fes, predicateIndex);
+        
+        if (eventsToCompare.isEmpty()) {
+        	throw new NoEventsException("All " + numEvents + " events were dropped because they had no active features. Try increasing the cutoff (was " + cutoff + ").");
+        }
+        
       } finally {
         fes.close();
       }
